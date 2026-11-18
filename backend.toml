@@ -24,12 +24,6 @@
     # hashes these bytes into the registry's manifest pin; must match `entrypoint`.
     wasm = "tidy.wasm"
 
-# Hand Tidy the user's dictation context. It reads the vocabulary and not the
-# prompt: the prompt is instructions, and rules cannot follow instructions.
-# Nothing leaves the machine either way, since Tidy has no egress.
-[capabilities]
-    context = true
-
 # No egress. Every rule is local string handling, so the component is granted
 # nothing — an empty list is the strongest statement this file can make.
 [network]
@@ -99,6 +93,11 @@
 [[models]]
     name = "rules-v1"
     role = "post_processor"
+    # Hand Tidy the user's dictation context. It reads the vocabulary and not
+    # the prompt: the prompt is instructions, and rules cannot follow
+    # instructions. Nothing leaves the machine either way, since Tidy has no
+    # egress.
+    accepts_context = true
     multilingual = false
     primary_language = "en"
     supported_languages = ["en"]
